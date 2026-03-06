@@ -1,20 +1,33 @@
-export class EmailValidator{
+export class SirenValidator{
 
-    static isValid(email:string) : 
+    static isValid(siren:string) : boolean
     {
-        valid: boolean;
-        disposable?: boolean;
-    } {
-       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-       const domains = ["yopmail.com", "tempmail.com", "throwaway.email", "guerrillamail.com", "mailinator.com", "trashmail.com", "10minutemail.com", "temp-mail.org", "fakeinbox.com", "sharklasers.com"];
-
-       if(!regex.test(email) || email.includes(" ")){
-            return { valid: false, disposable: false };
-       }
-
-       const emailDomain = email.split('@')[1].toLowerCase();
-       if (domains.includes(emailDomain)) return { valid: false, disposable: true };
-
-       return { valid: true, disposable: false };
+       return this.luhnAlgorithm(siren);
     }
+
+    static luhnAlgorithm(numero : string) : boolean
+    {
+        let digits = numero.split('').map(Number);
+
+        for (let i = digits.length - 2; i >= 0; i-=2) 
+        {
+            digits[i] = digits[i] *2;
+            if (digits[i]>9)
+            {
+                digits[i] = digits[i] - 9
+            }
+        }
+        const somme = this.sumNumber(digits);
+        return somme % 10 ==0;
+    }
+
+    static sumNumber(tab: number[]): number 
+    {
+        let acc: number = 0;
+        tab.forEach(element => {
+            acc += element;
+        });
+        return acc;
+    }
+    
 }

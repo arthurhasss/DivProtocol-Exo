@@ -1,4 +1,4 @@
-import { EmailValidator } from '../validators/email.validator.js';
+import { EmailValidator } from '../validators/email.validator';
 
 export class EmailService{
     static checkEmail(email:string){
