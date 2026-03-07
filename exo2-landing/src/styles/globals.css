@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@source "../app/**/*.{ts,tsx,js,jsx}";
+@source "../components/**/*.{ts,tsx,js,jsx}";
+@source "../sections/**/*.{ts,tsx,js,jsx}";
+
+@theme {
+  /* Couleurs DIV Protocol */
+  --color-electric-indigo: #5100FF;
+  --color-wisteria: #B8A2E6;
+  --color-magnolia: #FDF7FF;
+  --color-raisin-black: #1F1926;
+  --color-indigo-deep: #42137C;
+
+  /* Police Helvetica */
+  --font-sans: "Helvetica", "Arial", sans-serif;
+}
+
+:root {
+  --background: var(--color-raisin-black);
+  --foreground: var(--color-magnolia);
+}
+
+body {
+  background: linear-gradient(
+    to bottom,
+    var(--color-raisin-black),
+    var(--color-indigo-deep)
+  );
+  color: var(--foreground);
+  min-height: 100vh;
+}
