@@ -175,7 +175,7 @@ export default function Solutions() {
     <section
       id="solution"
       style={{
-        background: "linear-gradient(to bottom, #42137C, #1F1926)",
+        background: "linear-gradient(to bottom, #3A1570, #4E1A8C)",
         padding: "96px 0 112px",
         overflow: "hidden",
       }}

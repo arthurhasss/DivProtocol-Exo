@@ -5,9 +5,11 @@ import { motion } from "framer-motion";
 type CtaBannerProps = {
   /** Texte optionnel au-dessus des boutons */
   headline?: string;
+  /** Fond de la bannière — utiliser un gradient pour faire transition */
+  background?: string;
 };
 
-export default function CtaBanner({ headline }: CtaBannerProps) {
+export default function CtaBanner({ headline, background = "#42137C" }: CtaBannerProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -20,7 +22,7 @@ export default function CtaBanner({ headline }: CtaBannerProps) {
         flexDirection: "column",
         alignItems: "center",
         gap: "20px",
-        background: "#1F1926",
+        background,
       }}
     >
       {headline && (

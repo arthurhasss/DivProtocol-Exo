@@ -81,7 +81,7 @@ export default function Confiance() {
     <section
       id="confiance"
       style={{
-        background: "linear-gradient(to bottom, #1F1926, #0E0B14)",
+        background: "linear-gradient(to bottom, #6030A8, #8F55C8)",
         padding: "96px 0 120px",
         overflow: "hidden",
       }}
@@ -147,48 +147,7 @@ export default function Confiance() {
           ))}
         </div>
 
-        {/* ---- comparatif ---- */}
-        <motion.div
-          ref={compRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={compInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: "80px" }}
-        >
-          <h3 style={{ color: "#FDF7FF", fontSize: "22px", fontWeight: 700, marginBottom: "24px", textAlign: "center" }}>
-            Dropbox / Google Drive vs.{" "}
-            <span style={{ color: "#5100FF" }}>DIV Protocol</span>
-          </h3>
-
-          {/* table wrapper — scroll on mobile */}
-          <div style={{ overflowX: "auto", borderRadius: "16px", border: "1px solid rgba(184,162,230,0.12)" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "540px" }}>
-              <thead>
-                <tr style={{ background: "rgba(81,0,255,0.15)" }}>
-                  <th style={{ padding: "14px 20px", textAlign: "left", color: "#B8A2E6", fontSize: "13px", fontWeight: 600, width: "28%" }}>Critère</th>
-                  <th style={{ padding: "14px 20px", textAlign: "left", color: "#ff6b6b", fontSize: "13px", fontWeight: 600, width: "36%" }}>Solutions classiques</th>
-                  <th style={{ padding: "14px 20px", textAlign: "left", color: "#7fffb2", fontSize: "13px", fontWeight: 600, width: "36%" }}>DIV Protocol</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row, i) => (
-                  <tr
-                    key={i}
-                    style={{
-                      background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent",
-                      borderTop: "1px solid rgba(184,162,230,0.07)",
-                    }}
-                  >
-                    <td style={{ padding: "14px 20px", color: "rgba(253,247,255,0.7)", fontSize: "13px", fontWeight: 600 }}>{row.feature}</td>
-                    <td style={{ padding: "14px 20px", color: "rgba(253,247,255,0.45)", fontSize: "13px" }}>{row.before}</td>
-                    <td style={{ padding: "14px 20px", color: "rgba(253,247,255,0.9)", fontSize: "13px" }}>{row.after}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
-
+       
         {/* ---- témoignages ---- */}
         <div style={{ marginBottom: "80px" }}>
           <h3 style={{ color: "#FDF7FF", fontSize: "22px", fontWeight: 700, marginBottom: "32px", textAlign: "center" }}>

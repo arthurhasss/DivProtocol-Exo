@@ -22,11 +22,7 @@
 }
 
 body {
-  background: linear-gradient(
-    to bottom,
-    var(--color-raisin-black),
-    var(--color-indigo-deep)
-  );
+  background: #080510;
   color: var(--foreground);
   min-height: 100vh;
 }

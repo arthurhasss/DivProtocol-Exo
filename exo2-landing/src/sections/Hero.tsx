@@ -175,7 +175,7 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-screen overflow-hidden font-sans"
-      style={{ background: "linear-gradient(to bottom, #1F1926, #42137C)" }}
+      style={{ background: "linear-gradient(to bottom, #080510, #1B0D35)" }}
     >
       {/* ---------- animated background ---------- */}
       <div className="pointer-events-none absolute inset-0 z-0">
