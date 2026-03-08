@@ -12,8 +12,9 @@
   --color-indigo-deep: #42137C;
 
   /* Police Helvetica */
-  --font-sans: "Helvetica", "Arial", sans-serif;
-}
+  --font-sans: "Helvetica";
+  /* Breakpoint nav custom */
+  --breakpoint-nav: 1270px;}
 
 :root {
   --background: var(--color-raisin-black);
