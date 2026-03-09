@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 /* ---------- animation variants ---------- */
 const fadeUp = {
@@ -171,11 +172,12 @@ function AnimatedPackets() {
 
 export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isDark, toggle } = useTheme();
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden font-sans"
-      style={{ background: "linear-gradient(to bottom, #080510, #1B0D35)" }}
+      className="relative min-h-screen overflow-hidden font-sans transition-colors duration-500"
+      style={{ background: isDark ? "linear-gradient(to bottom, #080510, #1B0D35)" : "linear-gradient(to bottom, #FAFBFF, #F0ECFF)" }}
     >
       {/* ---------- animated background ---------- */}
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -195,9 +197,9 @@ export default function Hero() {
             <a
               key={item}
               href="#"
-              style={{ color: "rgba(253,247,255,0.8)", fontSize: "0.875rem", fontWeight: 500, transition: "color 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#FDF7FF")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(253,247,255,0.8)")}
+              style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.7)", fontSize: "0.875rem", fontWeight: 500, transition: "color 0.2s" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = isDark ? "#FDF7FF" : "#1F1926")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.7)")}
             >
               {item}
             </a>
@@ -206,7 +208,31 @@ export default function Hero() {
 
         {/* right actions — desktop */}
         <div className="hidden nav:flex items-center" style={{ gap: "1rem" }}>
-          <div className="flex items-center" style={{ gap: "0.4rem", color: "rgba(253,247,255,0.65)", fontSize: "0.875rem" }}>
+          {/* theme toggle */}
+          <button
+            onClick={toggle}
+            className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300"
+            style={{
+              background: isDark ? "rgba(255,255,255,0.1)" : "rgba(81,0,255,0.1)",
+              border: isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(81,0,255,0.3)",
+            }}
+            aria-label={isDark ? "Passer en mode clair" : "Passer en mode sombre"}
+          >
+            {isDark ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FDF7FF" strokeWidth="2" strokeLinecap="round">
+                <circle cx="12" cy="12" r="4" />
+                <line x1="12" y1="2" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="22" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="2" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="22" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5100FF" strokeWidth="2" strokeLinecap="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
+          <div className="flex items-center" style={{ gap: "0.4rem", color: isDark ? "rgba(253,247,255,0.65)" : "rgba(31,25,38,0.55)", fontSize: "0.875rem" }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="12" cy="12" r="10" />
               <path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20" />
@@ -227,9 +253,9 @@ export default function Hero() {
           </a>
           <a
             href="#contact"
-            style={{ borderRadius: "9999px", backgroundColor: "#FDF7FF", padding: "0.6rem 1.5rem", fontSize: "0.875rem", fontWeight: 600, color: "#1F1926", transition: "background 0.25s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ffffff")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FDF7FF")}
+            style={{ borderRadius: "9999px", backgroundColor: isDark ? "#FDF7FF" : "#1F1926", padding: "0.6rem 1.5rem", fontSize: "0.875rem", fontWeight: 600, color: isDark ? "#1F1926" : "#FDF7FF", transition: "background 0.25s" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = isDark ? "#ffffff" : "#2D1155"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = isDark ? "#FDF7FF" : "#1F1926"; }}
           >
             Nous contacter
           </a>
@@ -242,9 +268,9 @@ export default function Hero() {
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Menu"
         >
-          <span style={{ display: "block", width: 24, height: 2, background: "#FDF7FF", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 2, background: "#FDF7FF", borderRadius: 2, transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 2, background: "#FDF7FF", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
         </button>
       </header>
 
@@ -340,11 +366,11 @@ export default function Hero() {
             display: "inline-flex",
             alignItems: "center",
             gap: "0.5rem",
-            backgroundColor: "rgba(81,0,255,0.15)",
-            border: "1px solid rgba(81,0,255,0.4)",
+            backgroundColor: isDark ? "rgba(81,0,255,0.15)" : "rgba(81,0,255,0.08)",
+            border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
             borderRadius: "9999px",
             padding: "10px 20px",
-            color: "#B8A2E6",
+            color: isDark ? "#B8A2E6" : "#5100FF",
             fontSize: "16px",
             fontWeight: 600,
             marginBottom: "24px",
@@ -360,7 +386,7 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          style={{ color: "#FDF7FF", maxWidth: "52rem", fontWeight: 700, lineHeight: 1.15, fontSize: "clamp(28px, 4vw, 52px)" }}
+          style={{ color: isDark ? "#FDF7FF" : "#1F1926", maxWidth: "52rem", fontWeight: 700, lineHeight: 1.15, fontSize: "clamp(28px, 4vw, 52px)" }}
           className="text-center"
         >
           Reprenez le contrôle de vos données

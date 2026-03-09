@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 const words = [
   { text: "Dans" },
@@ -55,14 +56,18 @@ const icons = [
 export default function Manifesto() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { isDark } = useTheme();
 
   return (
     <section
       style={{
-        background: "linear-gradient(to bottom, #1B0D35, #2D1155)",
+        background: isDark
+          ? "linear-gradient(to bottom, #1B0D35, #2D1155)"
+          : "linear-gradient(to bottom, #F0ECFF, #E8E2FF)",
         padding: "100px 24px",
         display: "flex",
         justifyContent: "center",
+        transition: "background 0.5s",
       }}
     >
       <motion.div
@@ -110,7 +115,7 @@ export default function Manifesto() {
               style={{
                 display: "inline-block",
                 marginRight: "0.3em",
-                color: word.highlight ? "#B8A2E6" : "#FDF7FF",
+                color: word.highlight ? (isDark ? "#B8A2E6" : "#5100FF") : (isDark ? "#FDF7FF" : "#1F1926"),
               }}
             >
               {word.text}

@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 const cards = [
   {
@@ -14,11 +15,11 @@ const cards = [
         <path d="M15 20l3 3 7-7" stroke="#5100FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    tag: "Souveraineté",
-    title: "Vos données restent en France",
-    problem: "Aujourd'hui, vos fichiers clients transitent par des serveurs américains soumis au Cloud Act.",
-    solution: "DIV Protocol héberge exclusivement sur des datacenters certifiés HDS en France. Vous restez propriétaire à 100 % de vos données.",
-    stat: "100% hébergement FR",
+    tag: "Hébergement souverain",
+    title: "Vos données restent en Europe",
+    problem: "Aujourd'hui, vos fichiers d'entreprise transitent par des serveurs américains soumis au Cloud Act — sans que vous le sachiez.",
+    solution: "DIV Protocol héberge vos données sur une infrastructure multi-datacenters certifiée en Europe. Vous restez propriétaire à 100 % de vos données, à tout moment.",
+    stat: "100% hébergement EU",
   },
   {
     icon: (
@@ -31,9 +32,9 @@ const cards = [
     ),
     tag: "Zero-Knowledge",
     title: "Chiffrement de bout en bout",
-    problem: "Les solutions cloud classiques peuvent lire vos documents — et les autorités étrangères aussi.",
-    solution: "Architecture zero-knowledge : seul votre cabinet détient les clés de déchiffrement. Même nous, n'avons aucun accès à vos fichiers.",
-    stat: "Clé AES-256 côté client",
+    problem: "Les solutions cloud grand public peuvent lire vos documents — et les autorités étrangères aussi. Vos données sensibles ne sont pas à l'abri.",
+    solution: "Vos fichiers sont chiffrés avant de quitter votre appareil. Zéro connaissance : même nous n'avons jamais accès à vos fichiers. Les empreintes sont ancrées sur blockchain pour une traçabilité infalsifiable.",
+    stat: "AES-256 + Blockchain",
   },
   {
     icon: (
@@ -44,11 +45,11 @@ const cards = [
         <path d="M15 16h5" stroke="#5100FF" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
-    tag: "RGPD & Secret pro",
-    title: "Conformité intégrale",
-    problem: "Un cabinet non conforme RGPD risque jusqu'à 4 % de son CA annuel en sanction. Le secret professionnel n'est pas négociable.",
-    solution: "DIV Protocol est conçu pour les professions réglementées : journaux d'accès, DPA intégré, exports conformes CNIL en un clic.",
-    stat: "Conforme RGPD / CNIL",
+    tag: "Conformité RGPD",
+    title: "Conformité intégrée pour les entreprises",
+    problem: "Une entreprise non conforme RGPD risque jusqu'à 4 % de son CA annuel en sanction. Les outils grand public ne suffisent plus.",
+    solution: "DIV Protocol est conçu pour le B2B : contrôle des accès, audit API, conformité RGPD by design — vos données hébergées et protégées en Europe, sans configuration manuelle.",
+    stat: "Conforme RGPD / EU",
   },
 ];
 
@@ -64,6 +65,7 @@ const fadeUp = {
 function Card({ card, index }: { card: typeof cards[0]; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { isDark } = useTheme();
 
   return (
     <motion.div
@@ -72,94 +74,63 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
       variants={fadeUp}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
+      className="flex flex-col gap-4 min-w-0 flex-1 basis-72 rounded-2xl p-8 transition-[border-color,box-shadow,background] duration-500"
       style={{
-        flex: "1 1 280px",
-        minWidth: 0,
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(184,162,230,0.15)",
-        borderRadius: "20px",
-        padding: "32px 28px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "16px",
-        backdropFilter: "blur(8px)",
-        transition: "border-color 0.3s, box-shadow 0.3s",
+        background: isDark ? "rgba(255,255,255,0.04)" : "#ffffff",
+        border: isDark ? "1px solid rgba(184,162,230,0.15)" : "1px solid rgba(81,0,255,0.1)",
+        backdropFilter: isDark ? "blur(8px)" : undefined,
+        boxShadow: isDark ? undefined : "0 2px 16px rgba(81,0,255,0.06)",
       }}
       whileHover={{
         borderColor: "rgba(81,0,255,0.5)",
         boxShadow: "0 8px 40px rgba(81,0,255,0.15)",
       }}
     >
-      {/* icon */}
       {card.icon}
 
-      {/* tag */}
       <span
+        className="self-start inline-block rounded-full px-3 py-0.5 text-[11px] font-semibold uppercase tracking-[0.05em]"
         style={{
-          display: "inline-block",
-          backgroundColor: "rgba(81,0,255,0.15)",
-          border: "1px solid rgba(81,0,255,0.3)",
-          borderRadius: "9999px",
-          padding: "3px 12px",
-          fontSize: "11px",
-          fontWeight: 600,
-          color: "#B8A2E6",
-          letterSpacing: "0.05em",
-          textTransform: "uppercase",
-          alignSelf: "flex-start",
+          color: isDark ? "#B8A2E6" : "#5100FF",
+          background: "rgba(81,0,255,0.1)",
+          border: isDark ? "1px solid rgba(81,0,255,0.3)" : "1px solid rgba(81,0,255,0.25)",
         }}
       >
         {card.tag}
       </span>
 
-      {/* title */}
-      <h3 style={{ color: "#FDF7FF", fontSize: "20px", fontWeight: 700, lineHeight: 1.25, margin: 0 }}>
+      <h3 className="text-xl font-bold leading-tight m-0" style={{ color: isDark ? "#FDF7FF" : "#1F1926" }}>
         {card.title}
       </h3>
 
-      {/* problem */}
       <div
+        className="rounded-xl px-3.5 py-3"
         style={{
-          background: "rgba(255,60,60,0.07)",
-          border: "1px solid rgba(255,60,60,0.15)",
-          borderRadius: "10px",
-          padding: "12px 14px",
+          background: isDark ? "rgba(255,60,60,0.07)" : "rgb(254,242,242)",
+          border: isDark ? "1px solid rgba(255,60,60,0.15)" : "1px solid rgb(254,202,202)",
         }}
       >
-        <p style={{ color: "rgba(253,247,255,0.5)", fontSize: "13px", lineHeight: 1.6, margin: 0 }}>
-          <span style={{ color: "#ff6b6b", fontWeight: 600 }}>❌ Problème — </span>
+        <p className="text-[13px] leading-relaxed m-0" style={{ color: isDark ? "rgba(253,247,255,0.5)" : "rgba(31,25,38,0.6)" }}>
+          <span className="font-semibold" style={{ color: isDark ? "#ff6b6b" : "#ef4444" }}>❌ Problème — </span>
           {card.problem}
         </p>
       </div>
 
-      {/* solution */}
       <div
+        className="flex-1 rounded-xl px-3.5 py-3"
         style={{
-          background: "rgba(81,0,255,0.07)",
-          border: "1px solid rgba(81,0,255,0.2)",
-          borderRadius: "10px",
-          padding: "12px 14px",
-          flex: 1,
+          background: isDark ? "rgba(81,0,255,0.07)" : "rgba(81,0,255,0.05)",
+          border: isDark ? "1px solid rgba(81,0,255,0.2)" : "1px solid rgba(81,0,255,0.15)",
         }}
       >
-        <p style={{ color: "rgba(253,247,255,0.8)", fontSize: "13px", lineHeight: 1.6, margin: 0 }}>
-          <span style={{ color: "#B8A2E6", fontWeight: 600 }}>✓ Solution — </span>
+        <p className="text-[13px] leading-relaxed m-0" style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.75)" }}>
+          <span className="font-semibold" style={{ color: isDark ? "#B8A2E6" : "#5100FF" }}>✓ Solution — </span>
           {card.solution}
         </p>
       </div>
 
-      {/* stat chip */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
-        <span
-          style={{
-            backgroundColor: "#5100FF",
-            borderRadius: "9999px",
-            padding: "4px 14px",
-            fontSize: "12px",
-            fontWeight: 700,
-            color: "#FDF7FF",
-          }}
-        >
+      <div className="flex items-center gap-2 mt-1">
+        <span className="bg-electric-indigo rounded-full px-3.5 py-1 text-xs font-bold text-magnolia">
           {card.stat}
         </span>
       </div>
@@ -170,78 +141,52 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
 export default function Solutions() {
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
+  const { isDark } = useTheme();
 
   return (
     <section
       id="solution"
+      className="overflow-hidden py-24 pb-28 transition-colors duration-500"
       style={{
-        background: "linear-gradient(to bottom, #3A1570, #4E1A8C)",
-        padding: "96px 0 112px",
-        overflow: "hidden",
+        background: isDark
+          ? "linear-gradient(to bottom, #3A1570, #4E1A8C)"
+          : "#F7F4FF",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-        {/* header */}
+      <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           ref={titleRef}
           initial={{ opacity: 0, y: 30 }}
           animate={titleInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: "64px" }}
+          className="text-center mb-16"
         >
           <span
+            className="inline-block rounded-full px-[18px] py-1.5 text-xs font-semibold uppercase tracking-[0.08em] mb-5"
             style={{
-              display: "inline-block",
-              backgroundColor: "rgba(81,0,255,0.15)",
-              border: "1px solid rgba(81,0,255,0.4)",
-              borderRadius: "9999px",
-              padding: "6px 18px",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "#B8A2E6",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "20px",
+              color: isDark ? "#B8A2E6" : "#5100FF",
+              background: "rgba(81,0,255,0.1)",
+              border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
             }}
           >
             Problème → Solution
           </span>
           <h2
-            style={{
-              color: "#FDF7FF",
-              fontSize: "clamp(28px, 4vw, 48px)",
-              fontWeight: 700,
-              lineHeight: 1.15,
-              margin: "0 auto",
-              maxWidth: "640px",
-            }}
+            className="font-bold leading-tight mx-auto max-w-2xl"
+            style={{ fontSize: "clamp(28px, 4vw, 48px)", color: isDark ? "#FDF7FF" : "#1F1926" }}
           >
-            Pourquoi choisir{" "}
-            <span style={{ color: "#5100FF" }}>DIV Protocol</span>
+            Tout ce dont vos équipes ont besoin{" "}
+            <span className="text-electric-indigo">pour travailler en sécurité</span>
           </h2>
           <p
-            style={{
-              color: "rgba(253,247,255,0.55)",
-              fontSize: "16px",
-              lineHeight: 1.7,
-              marginTop: "16px",
-              maxWidth: "520px",
-              margin: "16px auto 0",
-            }}
+            className="text-base leading-relaxed mt-4 max-w-[520px] mx-auto"
+            style={{ color: isDark ? "rgba(253,247,255,0.55)" : "rgba(31,25,38,0.55)" }}
           >
-            Les outils grand public ne sont pas conçus pour votre confidentialité professionnelle.
+            Les outils grand public ne sont pas conçus pour protéger les données sensibles de votre entreprise.
           </p>
         </motion.div>
 
-        {/* cards */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "24px",
-            alignItems: "stretch",
-          }}
-        >
+        <div className="flex flex-wrap gap-6 items-stretch">
           {cards.map((card, i) => (
             <Card key={i} card={card} index={i} />
           ))}

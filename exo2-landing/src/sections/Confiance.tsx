@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 /* ---- chiffres clés ---- */
 const stats = [
@@ -11,14 +12,7 @@ const stats = [
   { value: "0", label: "fuite de données" },
 ];
 
-/* ---- comparatif ---- */
-const comparison = [
-  { feature: "Hébergement", before: "🇺🇸 Serveurs US (AWS, Google)", after: "🇫🇷 Datacenters certifiés HDS" },
-  { feature: "Chiffrement", before: "Côté serveur (l'éditeur accède)", after: "Zero-knowledge — clé uniquement chez vous" },
-  { feature: "RGPD", before: "Mise en conformité manuelle", after: "DPA intégré, exports CNIL en 1 clic" },
-  { feature: "Secret professionnel", before: "Non garanti", after: "Architecture dédiée professions réglementées" },
-  { feature: "Accès Cloud Act US", before: "Possible", after: "Impossible — juridiction FR uniquement" },
-];
+
 
 /* ---- témoignages ---- */
 const testimonials = [
@@ -54,6 +48,7 @@ const fadeUp = {
 function AnimatedStat({ value, label, index }: { value: string; label: string; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const { isDark } = useTheme();
   return (
     <motion.div
       ref={ref}
@@ -63,10 +58,10 @@ function AnimatedStat({ value, label, index }: { value: string; label: string; i
       animate={inView ? "visible" : "hidden"}
       style={{ textAlign: "center", flex: "1 1 140px" }}
     >
-      <div style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: "#FDF7FF", lineHeight: 1 }}>
+      <div style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: isDark ? "#FDF7FF" : "#1F1926", lineHeight: 1 }}>
         {value}
       </div>
-      <div style={{ color: "#B8A2E6", fontSize: "14px", marginTop: "8px", fontWeight: 500 }}>{label}</div>
+      <div style={{ color: isDark ? "#B8A2E6" : "#5100FF", fontSize: "14px", marginTop: "8px", fontWeight: 500 }}>{label}</div>
     </motion.div>
   );
 }
@@ -76,14 +71,18 @@ export default function Confiance() {
   const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
   const compRef = useRef(null);
   const compInView = useInView(compRef, { once: true, margin: "-60px" });
+  const { isDark } = useTheme();
 
   return (
     <section
       id="confiance"
       style={{
-        background: "linear-gradient(to bottom, #6030A8, #8F55C8)",
+        background: isDark
+          ? "linear-gradient(to bottom, #6030A8, #8F55C8)"
+          : "linear-gradient(to bottom, #EDE6FF, #E0D8FF)",
         padding: "96px 0 120px",
         overflow: "hidden",
+        transition: "background 0.5s",
       }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
@@ -99,13 +98,13 @@ export default function Confiance() {
           <span
             style={{
               display: "inline-block",
-              backgroundColor: "rgba(81,0,255,0.15)",
-              border: "1px solid rgba(81,0,255,0.4)",
+              backgroundColor: "rgba(81,0,255,0.1)",
+              border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
               borderRadius: "9999px",
               padding: "6px 18px",
               fontSize: "12px",
               fontWeight: 600,
-              color: "#B8A2E6",
+              color: isDark ? "#B8A2E6" : "#5100FF",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               marginBottom: "20px",
@@ -115,7 +114,7 @@ export default function Confiance() {
           </span>
           <h2
             style={{
-              color: "#FDF7FF",
+              color: isDark ? "#FDF7FF" : "#1F1926",
               fontSize: "clamp(28px, 4vw, 48px)",
               fontWeight: 700,
               lineHeight: 1.15,
@@ -136,8 +135,8 @@ export default function Confiance() {
             gap: "32px",
             justifyContent: "center",
             marginBottom: "80px",
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(184,162,230,0.12)",
+            background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.6)",
+            border: isDark ? "1px solid rgba(184,162,230,0.12)" : "1px solid rgba(81,0,255,0.1)",
             borderRadius: "20px",
             padding: "40px 32px",
           }}
@@ -150,7 +149,7 @@ export default function Confiance() {
        
         {/* ---- témoignages ---- */}
         <div style={{ marginBottom: "80px" }}>
-          <h3 style={{ color: "#FDF7FF", fontSize: "22px", fontWeight: 700, marginBottom: "32px", textAlign: "center" }}>
+          <h3 style={{ color: isDark ? "#FDF7FF" : "#1F1926", fontSize: "22px", fontWeight: 700, marginBottom: "32px", textAlign: "center" }}>
             Ce que disent nos clients
           </h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "24px" }}>
@@ -167,18 +166,19 @@ export default function Confiance() {
                   animate={inView ? "visible" : "hidden"}
                   style={{
                     flex: "1 1 280px",
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(184,162,230,0.12)",
+                    background: isDark ? "rgba(255,255,255,0.04)" : "#ffffff",
+                    border: isDark ? "1px solid rgba(184,162,230,0.12)" : "1px solid rgba(81,0,255,0.1)",
                     borderRadius: "16px",
                     padding: "28px",
                     display: "flex",
                     flexDirection: "column",
                     gap: "20px",
+                    boxShadow: isDark ? undefined : "0 2px 12px rgba(81,0,255,0.05)",
                   }}
                 >
                   {/* quote marks */}
                   <span style={{ fontSize: "40px", color: "#5100FF", lineHeight: 1, opacity: 0.6 }}>"</span>
-                  <p style={{ color: "rgba(253,247,255,0.8)", fontSize: "14px", lineHeight: 1.75, margin: 0, marginTop: "-16px", flex: 1 }}>
+                  <p style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.75)", fontSize: "14px", lineHeight: 1.75, margin: 0, marginTop: "-16px", flex: 1 }}>
                     {t.quote}
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -200,8 +200,8 @@ export default function Confiance() {
                       {t.initials}
                     </div>
                     <div>
-                      <div style={{ color: "#FDF7FF", fontSize: "13px", fontWeight: 600 }}>{t.author}</div>
-                      <div style={{ color: "#B8A2E6", fontSize: "12px" }}>{t.role}</div>
+                      <div style={{ color: isDark ? "#FDF7FF" : "#1F1926", fontSize: "13px", fontWeight: 600 }}>{t.author}</div>
+                      <div style={{ color: isDark ? "#B8A2E6" : "#5100FF", fontSize: "12px" }}>{t.role}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -218,7 +218,7 @@ export default function Confiance() {
           transition={{ duration: 0.6 }}
           style={{ textAlign: "center" }}
         >
-          <p style={{ color: "rgba(253,247,255,0.55)", fontSize: "15px", marginBottom: "24px" }}>
+          <p style={{ color: isDark ? "rgba(253,247,255,0.55)" : "rgba(31,25,38,0.55)", fontSize: "15px", marginBottom: "24px" }}>
             Prêt à sécuriser vos dossiers clients ?
           </p>
           <a

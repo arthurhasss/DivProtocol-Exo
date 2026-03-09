@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 type CtaBannerProps = {
   /** Texte optionnel au-dessus des boutons */
@@ -10,25 +11,32 @@ type CtaBannerProps = {
 };
 
 export default function CtaBanner({ headline, background = "#42137C" }: CtaBannerProps) {
+  const { isDark } = useTheme();
+
+  const textColor = isDark ? "rgba(255,255,255,0.85)" : "#1F1926";
+  const borderColor = isDark ? "rgba(255,255,255,0.55)" : "rgba(81,0,255,0.5)";
+  const btnColor = isDark ? "#ffffff" : "#42137C";
+  const hoverBg = isDark ? "rgba(255,255,255,0.12)" : "rgba(81,0,255,0.08)";
+  const hoverBorder = isDark ? "#fff" : "#5100FF";
+
   return (
+    <div style={{ background, padding: "28px 32px" }}>
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       style={{
-        padding: "28px 32px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "20px",
-        background,
       }}
     >
       {headline && (
         <p
           style={{
-            color: "rgba(255,255,255,0.8)",
+            color: textColor,
             fontSize: "15px",
             fontWeight: 500,
             margin: 0,
@@ -58,23 +66,23 @@ export default function CtaBanner({ headline, background = "#42137C" }: CtaBanne
             maxWidth: "260px",
             textAlign: "center",
             borderRadius: "12px",
-            border: "2px solid rgba(255,255,255,0.6)",
+            border: `2px solid ${borderColor}`,
             padding: "14px 20px",
             fontSize: "0.925rem",
             fontWeight: 600,
-            color: "#ffffff",
+            color: btnColor,
             textDecoration: "none",
             background: "transparent",
             transition: "background 0.2s, border-color 0.2s",
             whiteSpace: "nowrap",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.12)";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "#fff";
+            (e.currentTarget as HTMLAnchorElement).style.background = hoverBg;
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = hoverBorder;
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.6)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = borderColor;
           }}
         >
           Demander une démo
@@ -88,23 +96,23 @@ export default function CtaBanner({ headline, background = "#42137C" }: CtaBanne
             maxWidth: "260px",
             textAlign: "center",
             borderRadius: "12px",
-            border: "2px solid rgba(255,255,255,0.6)",
+            border: `2px solid ${borderColor}`,
             padding: "14px 20px",
             fontSize: "0.925rem",
             fontWeight: 600,
-            color: "#ffffff",
+            color: btnColor,
             textDecoration: "none",
             background: "transparent",
             transition: "background 0.2s, border-color 0.2s",
             whiteSpace: "nowrap",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.12)";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "#fff";
+            (e.currentTarget as HTMLAnchorElement).style.background = hoverBg;
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = hoverBorder;
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.6)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = borderColor;
           }}
         >
           Commencer maintenant
@@ -118,11 +126,11 @@ export default function CtaBanner({ headline, background = "#42137C" }: CtaBanne
             maxWidth: "260px",
             textAlign: "center",
             borderRadius: "12px",
-            border: "2px solid rgba(255,255,255,0.6)",
+            border: `2px solid ${borderColor}`,
             padding: "14px 20px",
             fontSize: "0.925rem",
             fontWeight: 600,
-            color: "#ffffff",
+            color: btnColor,
             textDecoration: "none",
             background: "transparent",
             transition: "background 0.2s, border-color 0.2s",
@@ -133,12 +141,12 @@ export default function CtaBanner({ headline, background = "#42137C" }: CtaBanne
             whiteSpace: "nowrap",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.12)";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "#fff";
+            (e.currentTarget as HTMLAnchorElement).style.background = hoverBg;
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = hoverBorder;
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.6)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = borderColor;
           }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -148,5 +156,6 @@ export default function CtaBanner({ headline, background = "#42137C" }: CtaBanne
         </a>
       </div>
     </motion.div>
+    </div>
   );
 }
