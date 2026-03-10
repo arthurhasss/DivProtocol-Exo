@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
 /* ---------- animation variants ---------- */
 const fadeUp = {
@@ -172,13 +171,9 @@ function AnimatedPackets() {
 
 export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isDark, toggle } = useTheme();
 
   return (
-    <section
-      className="relative min-h-screen overflow-hidden font-sans transition-colors duration-500"
-      style={{ background: isDark ? "linear-gradient(to bottom, #080510, #1B0D35)" : "linear-gradient(to bottom, #FAFBFF, #F0ECFF)" }}
-    >
+    <section className="section-hero relative min-h-screen overflow-hidden font-sans transition-colors duration-500">
       {/* ---------- animated background ---------- */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <AnimatedPackets />
@@ -192,14 +187,12 @@ export default function Hero() {
         </a>
 
         {/* nav links — desktop only */}
-        <nav className="hidden nav:flex" style={{ gap: "3rem", alignItems: "center" }}>
+        <nav className="hidden nav:flex gap-[3rem] items-center">
           {["Solution", "Comment ça marche ?", "Tarifs", "Blog", "Contact"].map((item) => (
             <a
               key={item}
               href="#"
-              style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.7)", fontSize: "0.875rem", fontWeight: 500, transition: "color 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = isDark ? "#FDF7FF" : "#1F1926")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.7)")}
+              className="text-sm font-medium transition-colors duration-200 text-[rgba(253,247,255,0.8)] hover:text-magnolia"
             >
               {item}
             </a>
@@ -207,32 +200,8 @@ export default function Hero() {
         </nav>
 
         {/* right actions — desktop */}
-        <div className="hidden nav:flex items-center" style={{ gap: "1rem" }}>
-          {/* theme toggle */}
-          <button
-            onClick={toggle}
-            className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300"
-            style={{
-              background: isDark ? "rgba(255,255,255,0.1)" : "rgba(81,0,255,0.1)",
-              border: isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(81,0,255,0.3)",
-            }}
-            aria-label={isDark ? "Passer en mode clair" : "Passer en mode sombre"}
-          >
-            {isDark ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FDF7FF" strokeWidth="2" strokeLinecap="round">
-                <circle cx="12" cy="12" r="4" />
-                <line x1="12" y1="2" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="22" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="2" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="22" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5100FF" strokeWidth="2" strokeLinecap="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
-          <div className="flex items-center" style={{ gap: "0.4rem", color: isDark ? "rgba(253,247,255,0.65)" : "rgba(31,25,38,0.55)", fontSize: "0.875rem" }}>
+        <div className="hidden nav:flex items-center gap-4">
+          <div className="flex items-center gap-[0.4rem] text-sm text-[rgba(253,247,255,0.65)]">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="12" cy="12" r="10" />
               <path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20" />
@@ -241,10 +210,7 @@ export default function Hero() {
           </div>
           <a
             href="tel:+33"
-            className="flex items-center"
-            style={{ gap: "0.5rem", borderRadius: "9999px", border: "1px solid #5100FF", padding: "0.6rem 1.25rem", fontSize: "0.875rem", fontWeight: 500, color: "#5100FF", transition: "background 0.25s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(81,0,255,0.1)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            className="nav-call"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -253,9 +219,7 @@ export default function Hero() {
           </a>
           <a
             href="#contact"
-            style={{ borderRadius: "9999px", backgroundColor: isDark ? "#FDF7FF" : "#1F1926", padding: "0.6rem 1.5rem", fontSize: "0.875rem", fontWeight: 600, color: isDark ? "#1F1926" : "#FDF7FF", transition: "background 0.25s" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = isDark ? "#ffffff" : "#2D1155"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = isDark ? "#FDF7FF" : "#1F1926"; }}
+            className="nav-cta"
           >
             Nous contacter
           </a>
@@ -268,9 +232,12 @@ export default function Hero() {
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Menu"
         >
-          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 2, background: isDark ? "#FDF7FF" : "#1F1926", borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
+          <span className="block w-6 h-0.5 rounded bg-magnolia transition-transform duration-[250ms]"
+            style={{ transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
+          <span className="block w-6 h-0.5 rounded bg-magnolia transition-opacity duration-[250ms]"
+            style={{ opacity: menuOpen ? 0 : 1 }} />
+          <span className="block w-6 h-0.5 rounded bg-magnolia transition-transform duration-[250ms]"
+            style={{ transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
         </button>
       </header>
 
@@ -362,19 +329,8 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            backgroundColor: isDark ? "rgba(81,0,255,0.15)" : "rgba(81,0,255,0.08)",
-            border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
-            borderRadius: "9999px",
-            padding: "10px 20px",
-            color: isDark ? "#B8A2E6" : "#5100FF",
-            fontSize: "16px",
-            fontWeight: 600,
-            marginBottom: "24px",
-          }}
+          className="inline-flex items-center gap-2 rounded-full px-5 py-[10px] text-base font-semibold mb-6
+            bg-[rgba(81,0,255,0.15)] border border-[rgba(81,0,255,0.4)] text-wisteria"
         >
           <span style={{ color: "#5100FF", fontWeight: 800, fontSize: "20px" }}>85%</span>
           des cabinets d'avocats exposent leurs dossiers sur le Cloud&nbsp;US
@@ -386,8 +342,8 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          style={{ color: isDark ? "#FDF7FF" : "#1F1926", maxWidth: "52rem", fontWeight: 700, lineHeight: 1.15, fontSize: "clamp(28px, 4vw, 52px)" }}
-          className="text-center"
+          className="text-center max-w-[52rem] font-bold leading-[1.15] text-magnolia"
+          style={{ fontSize: "clamp(28px, 4vw, 52px)" }}
         >
           Reprenez le contrôle de vos données
         </motion.h1>
@@ -401,17 +357,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           href="#discover"
-          style={{
-            marginTop: "64px",
-            backgroundColor: "#5100FF",
-            color: "#FDF7FF",
-            borderRadius: "9999px",
-            padding: "14px 32px",
-            fontWeight: 600,
-            fontSize: "16px",
-            display: "inline-block",
-            transition: "filter 0.25s, box-shadow 0.25s",
-          }}
+          className="btn-primary mt-16"
           whileHover={{ filter: "brightness(1.1)", boxShadow: "0 0 32px rgba(184,162,230,0.5)" }}
         >
           Découvrir DIV Protocol

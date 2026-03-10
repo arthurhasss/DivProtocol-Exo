@@ -4,25 +4,135 @@
 @source "../sections/**/*.{ts,tsx,js,jsx}";
 
 @theme {
-  /* Couleurs DIV Protocol */
+  /* Brand palette */
   --color-electric-indigo: #5100FF;
-  --color-wisteria: #B8A2E6;
-  --color-magnolia: #FDF7FF;
-  --color-raisin-black: #1F1926;
-  --color-indigo-deep: #42137C;
+  --color-wisteria:        #B8A2E6;
+  --color-magnolia:        #FDF7FF;
+  --color-raisin-black:    #1F1926;
+  --color-indigo-deep:     #42137C;
 
-  /* Police Helvetica */
+  /* Typographie */
   --font-sans: "Helvetica";
-  /* Breakpoint nav custom */
-  --breakpoint-nav: 1270px;}
 
-:root {
-  --background: var(--color-raisin-black);
-  --foreground: var(--color-magnolia);
+  /* Breakpoint nav custom */
+  --breakpoint-nav: 1270px;
 }
 
 body {
   background: #080510;
-  color: var(--foreground);
+  color: #FDF7FF;
   min-height: 100vh;
+}
+
+/* ════════════════════════════════════════════════════
+   Section backgrounds (dark only)
+════════════════════════════════════════════════════ */
+
+.section-hero      { background: linear-gradient(to bottom, #080510, #1B0D35); }
+.section-manifesto { background: linear-gradient(to bottom, #1B0D35, #2D1155); }
+.section-solutions { background: linear-gradient(to bottom, #2D1155, #4E1A8C); }
+.section-confiance { background: linear-gradient(to bottom, #4E1A8C, #8F55C8); }
+.section-cta-1     { background: linear-gradient(to bottom, #2D1155, #3A1570); }
+.section-cta-2     { background: linear-gradient(to bottom, #4E1A8C, #6030A8); }
+
+/* ════════════════════════════════════════════════════
+   Shared component classes
+════════════════════════════════════════════════════ */
+@layer components {
+
+  .section-container {
+    @apply max-w-[1200px] mx-auto px-6;
+  }
+
+  .badge {
+    @apply inline-block rounded-full px-[18px] py-1.5 text-xs font-semibold
+           uppercase tracking-[0.08em] mb-5
+           bg-[rgba(81,0,255,0.1)] border border-[rgba(81,0,255,0.4)] text-wisteria;
+  }
+
+  .section-title {
+    @apply font-bold leading-tight text-magnolia;
+    font-size: clamp(28px, 4vw, 48px);
+  }
+
+  .section-description {
+    @apply text-base leading-relaxed text-[rgba(253,247,255,0.55)];
+  }
+
+  .btn-primary {
+    @apply inline-block rounded-full bg-electric-indigo text-magnolia
+           px-10 py-4 font-semibold text-base no-underline
+           transition-[filter,box-shadow] duration-[250ms]
+           hover:brightness-110 hover:shadow-[0_0_32px_rgba(81,0,255,0.45)];
+  }
+
+  .cta-btn {
+    @apply flex-[1_1_180px] max-w-[260px] text-center rounded-xl border-2
+           px-5 py-3.5 text-[0.925rem] font-semibold no-underline bg-transparent
+           whitespace-nowrap transition-[background,border-color] duration-200
+           border-[rgba(255,255,255,0.55)] text-magnolia
+           hover:bg-[rgba(255,255,255,0.12)] hover:border-white;
+  }
+
+  .nav-call {
+    @apply flex items-center gap-2 rounded-full border border-electric-indigo
+           px-5 py-[0.6rem] text-sm font-medium text-electric-indigo no-underline
+           transition-[background] duration-[250ms]
+           hover:bg-[rgba(81,0,255,0.1)];
+  }
+
+  .nav-cta {
+    @apply rounded-full px-6 py-[0.6rem] text-sm font-semibold no-underline
+           transition-[background-color] duration-[250ms]
+           bg-magnolia text-raisin-black hover:bg-white;
+  }
+
+  .feature-card {
+    @apply flex flex-col gap-4 min-w-0 flex-1 basis-72 rounded-2xl p-8
+           transition-[border-color,box-shadow] duration-500
+           bg-[rgba(255,255,255,0.04)] border border-[rgba(184,162,230,0.15)]
+           backdrop-blur-[8px];
+  }
+
+  .card-tag {
+    @apply self-start inline-block rounded-full px-3 py-0.5 text-[11px]
+           font-semibold uppercase tracking-[0.05em]
+           bg-[rgba(81,0,255,0.1)] border border-[rgba(81,0,255,0.3)] text-wisteria;
+  }
+
+  .card-title {
+    @apply text-xl font-bold leading-tight m-0 text-magnolia;
+  }
+
+  .card-problem {
+    @apply rounded-xl px-3.5 py-3
+           bg-[rgba(255,60,60,0.07)] border border-[rgba(255,60,60,0.15)];
+  }
+
+  .card-solution {
+    @apply flex-1 rounded-xl px-3.5 py-3
+           bg-[rgba(81,0,255,0.07)] border border-[rgba(81,0,255,0.2)];
+  }
+
+  .card-text {
+    @apply text-[13px] leading-relaxed m-0 text-[rgba(253,247,255,0.5)];
+  }
+
+  .card-text-main {
+    @apply text-[14px] leading-[1.75] m-0 text-[rgba(253,247,255,0.8)];
+  }
+
+  .stat-chip {
+    @apply bg-electric-indigo rounded-full px-3.5 py-1 text-xs font-bold text-magnolia;
+  }
+
+  .stats-panel {
+    @apply flex flex-wrap gap-8 justify-center rounded-[20px] px-8 py-10
+           bg-[rgba(255,255,255,0.03)] border border-[rgba(184,162,230,0.12)];
+  }
+
+  .testimonial-card {
+    @apply flex-[1_1_280px] flex flex-col gap-5 rounded-2xl p-7
+           bg-[rgba(255,255,255,0.04)] border border-[rgba(184,162,230,0.12)];
+  }
 }

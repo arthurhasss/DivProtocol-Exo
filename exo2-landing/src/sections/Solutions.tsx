@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
 const cards = [
   {
@@ -65,7 +64,6 @@ const fadeUp = {
 function Card({ card, index }: { card: typeof cards[0]; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const { isDark } = useTheme();
 
   return (
     <motion.div
@@ -74,13 +72,7 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
       variants={fadeUp}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
-      className="flex flex-col gap-4 min-w-0 flex-1 basis-72 rounded-2xl p-8 transition-[border-color,box-shadow,background] duration-500"
-      style={{
-        background: isDark ? "rgba(255,255,255,0.04)" : "#ffffff",
-        border: isDark ? "1px solid rgba(184,162,230,0.15)" : "1px solid rgba(81,0,255,0.1)",
-        backdropFilter: isDark ? "blur(8px)" : undefined,
-        boxShadow: isDark ? undefined : "0 2px 16px rgba(81,0,255,0.06)",
-      }}
+      className="feature-card"
       whileHover={{
         borderColor: "rgba(81,0,255,0.5)",
         boxShadow: "0 8px 40px rgba(81,0,255,0.15)",
@@ -88,51 +80,26 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
     >
       {card.icon}
 
-      <span
-        className="self-start inline-block rounded-full px-3 py-0.5 text-[11px] font-semibold uppercase tracking-[0.05em]"
-        style={{
-          color: isDark ? "#B8A2E6" : "#5100FF",
-          background: "rgba(81,0,255,0.1)",
-          border: isDark ? "1px solid rgba(81,0,255,0.3)" : "1px solid rgba(81,0,255,0.25)",
-        }}
-      >
-        {card.tag}
-      </span>
+      <span className="card-tag">{card.tag}</span>
 
-      <h3 className="text-xl font-bold leading-tight m-0" style={{ color: isDark ? "#FDF7FF" : "#1F1926" }}>
-        {card.title}
-      </h3>
+      <h3 className="card-title">{card.title}</h3>
 
-      <div
-        className="rounded-xl px-3.5 py-3"
-        style={{
-          background: isDark ? "rgba(255,60,60,0.07)" : "rgb(254,242,242)",
-          border: isDark ? "1px solid rgba(255,60,60,0.15)" : "1px solid rgb(254,202,202)",
-        }}
-      >
-        <p className="text-[13px] leading-relaxed m-0" style={{ color: isDark ? "rgba(253,247,255,0.5)" : "rgba(31,25,38,0.6)" }}>
-          <span className="font-semibold" style={{ color: isDark ? "#ff6b6b" : "#ef4444" }}>❌ Problème — </span>
+      <div className="card-problem">
+        <p className="card-text">
+          <span className="font-semibold text-[#ff6b6b]">❌ Problème — </span>
           {card.problem}
         </p>
       </div>
 
-      <div
-        className="flex-1 rounded-xl px-3.5 py-3"
-        style={{
-          background: isDark ? "rgba(81,0,255,0.07)" : "rgba(81,0,255,0.05)",
-          border: isDark ? "1px solid rgba(81,0,255,0.2)" : "1px solid rgba(81,0,255,0.15)",
-        }}
-      >
-        <p className="text-[13px] leading-relaxed m-0" style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.75)" }}>
-          <span className="font-semibold" style={{ color: isDark ? "#B8A2E6" : "#5100FF" }}>✓ Solution — </span>
+      <div className="card-solution">
+        <p className="card-text-main">
+          <span className="font-semibold text-wisteria">✓ Solution — </span>
           {card.solution}
         </p>
       </div>
 
       <div className="flex items-center gap-2 mt-1">
-        <span className="bg-electric-indigo rounded-full px-3.5 py-1 text-xs font-bold text-magnolia">
-          {card.stat}
-        </span>
+        <span className="stat-chip">{card.stat}</span>
       </div>
     </motion.div>
   );
@@ -141,19 +108,13 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
 export default function Solutions() {
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
-  const { isDark } = useTheme();
 
   return (
     <section
       id="solution"
-      className="overflow-hidden py-24 pb-28 transition-colors duration-500"
-      style={{
-        background: isDark
-          ? "linear-gradient(to bottom, #3A1570, #4E1A8C)"
-          : "#F7F4FF",
-      }}
+      className="section-solutions overflow-hidden py-24 pb-28 transition-colors duration-500"
     >
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="section-container">
         <motion.div
           ref={titleRef}
           initial={{ opacity: 0, y: 30 }}
@@ -161,30 +122,14 @@ export default function Solutions() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span
-            className="inline-block rounded-full px-[18px] py-1.5 text-xs font-semibold uppercase tracking-[0.08em] mb-5"
-            style={{
-              color: isDark ? "#B8A2E6" : "#5100FF",
-              background: "rgba(81,0,255,0.1)",
-              border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
-            }}
-          >
-            Problème → Solution
-          </span>
-          <h2
-            className="font-bold leading-tight mx-auto max-w-2xl"
-            style={{ fontSize: "clamp(28px, 4vw, 48px)", color: isDark ? "#FDF7FF" : "#1F1926" }}
-          >
-            Tout ce dont vos équipes ont besoin{" "}
-            <span className="text-electric-indigo">pour travailler en sécurité</span>
+          <span className="badge">Problème → Solution</span>
+     
+          <h2 className="section-title mx-auto max-w-[640px]">
+             Tout ce dont vos équipes ont besoin {" "}
+            <span className="text-electric-indigo">pour travailler en sécurité.</span>
           </h2>
-          <p
-            className="text-base leading-relaxed mt-4 max-w-[520px] mx-auto"
-            style={{ color: isDark ? "rgba(253,247,255,0.55)" : "rgba(31,25,38,0.55)" }}
-          >
-            Les outils grand public ne sont pas conçus pour protéger les données sensibles de votre entreprise.
-          </p>
         </motion.div>
+
 
         <div className="flex flex-wrap gap-6 items-stretch">
           {cards.map((card, i) => (

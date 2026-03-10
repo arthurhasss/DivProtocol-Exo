@@ -2,9 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
-/* ---- chiffres clés ---- */
 const stats = [
   { value: "10 000+", label: "dossiers sécurisés" },
   { value: "850+", label: "cabinets d'avocats" },
@@ -12,9 +10,6 @@ const stats = [
   { value: "0", label: "fuite de données" },
 ];
 
-
-
-/* ---- témoignages ---- */
 const testimonials = [
   {
     quote: "Depuis DIV Protocol, je peux enfin partager des pièces sensibles avec mes clients sans craindre une fuite. C'est devenu indispensable.",
@@ -48,7 +43,6 @@ const fadeUp = {
 function AnimatedStat({ value, label, index }: { value: string; label: string; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const { isDark } = useTheme();
   return (
     <motion.div
       ref={ref}
@@ -56,12 +50,42 @@ function AnimatedStat({ value, label, index }: { value: string; label: string; i
       variants={fadeUp}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
-      style={{ textAlign: "center", flex: "1 1 140px" }}
+      className="text-center flex-[1_1_140px]"
     >
-      <div style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: isDark ? "#FDF7FF" : "#1F1926", lineHeight: 1 }}>
+      <div
+        className="font-extrabold leading-none text-magnolia"
+        style={{ fontSize: "clamp(32px, 4vw, 52px)" }}
+      >
         {value}
       </div>
-      <div style={{ color: isDark ? "#B8A2E6" : "#5100FF", fontSize: "14px", marginTop: "8px", fontWeight: 500 }}>{label}</div>
+      <div className="text-sm mt-2 font-medium text-wisteria">{label}</div>
+    </motion.div>
+  );
+}
+
+function TestimonialCard({ t, index }: { t: typeof testimonials[0]; index: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      custom={index}
+      variants={fadeUp}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className="testimonial-card"
+    >
+      <span className="text-[40px] text-electric-indigo leading-none opacity-60">"</span>
+      <p className="card-text-main -mt-4 flex-1">{t.quote}</p>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-electric-indigo flex items-center justify-center text-[13px] font-bold text-magnolia shrink-0">
+          {t.initials}
+        </div>
+        <div>
+          <div className="text-[13px] font-semibold text-magnolia">{t.author}</div>
+          <div className="text-[12px] text-wisteria">{t.role}</div>
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -69,180 +93,60 @@ function AnimatedStat({ value, label, index }: { value: string; label: string; i
 export default function Confiance() {
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
-  const compRef = useRef(null);
-  const compInView = useInView(compRef, { once: true, margin: "-60px" });
-  const { isDark } = useTheme();
 
   return (
     <section
       id="confiance"
-      style={{
-        background: isDark
-          ? "linear-gradient(to bottom, #6030A8, #8F55C8)"
-          : "linear-gradient(to bottom, #EDE6FF, #E0D8FF)",
-        padding: "96px 0 120px",
-        overflow: "hidden",
-        transition: "background 0.5s",
-      }}
+      className="section-confiance overflow-hidden pt-24 pb-[120px] transition-colors duration-500"
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+      <div className="section-container">
 
-        {/* ---- section title ---- */}
+        {}
         <motion.div
           ref={titleRef}
           initial={{ opacity: 0, y: 30 }}
           animate={titleInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: "72px" }}
+          className="text-center mb-[72px]"
         >
-          <span
-            style={{
-              display: "inline-block",
-              backgroundColor: "rgba(81,0,255,0.1)",
-              border: isDark ? "1px solid rgba(81,0,255,0.4)" : "1px solid rgba(81,0,255,0.25)",
-              borderRadius: "9999px",
-              padding: "6px 18px",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: isDark ? "#B8A2E6" : "#5100FF",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "20px",
-            }}
-          >
-            Confiance & Preuves
-          </span>
-          <h2
-            style={{
-              color: isDark ? "#FDF7FF" : "#1F1926",
-              fontSize: "clamp(28px, 4vw, 48px)",
-              fontWeight: 700,
-              lineHeight: 1.15,
-              margin: "0 auto",
-              maxWidth: "640px",
-            }}
-          >
+          <span className="badge">Confiance &amp; Preuves</span>
+          <h2 className="section-title mx-auto max-w-[640px]">
             Ils nous font confiance.{" "}
-            <span style={{ color: "#5100FF" }}>Voici pourquoi.</span>
+            <span className="text-electric-indigo">Voici pourquoi.</span>
           </h2>
         </motion.div>
 
-        {/* ---- chiffres ---- */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "32px",
-            justifyContent: "center",
-            marginBottom: "80px",
-            background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.6)",
-            border: isDark ? "1px solid rgba(184,162,230,0.12)" : "1px solid rgba(81,0,255,0.1)",
-            borderRadius: "20px",
-            padding: "40px 32px",
-          }}
-        >
+        {}
+        <div className="stats-panel mb-20">
           {stats.map((s, i) => (
             <AnimatedStat key={i} value={s.value} label={s.label} index={i} />
           ))}
         </div>
 
-       
-        {/* ---- témoignages ---- */}
-        <div style={{ marginBottom: "80px" }}>
-          <h3 style={{ color: isDark ? "#FDF7FF" : "#1F1926", fontSize: "22px", fontWeight: 700, marginBottom: "32px", textAlign: "center" }}>
+        {}
+        <div className="mb-20">
+          <h3 className="text-[22px] font-bold mb-8 text-center text-raisin ">
             Ce que disent nos clients
           </h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "24px" }}>
-            {testimonials.map((t, i) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true, margin: "-60px" });
-              return (
-                <motion.div
-                  key={i}
-                  ref={ref}
-                  custom={i}
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate={inView ? "visible" : "hidden"}
-                  style={{
-                    flex: "1 1 280px",
-                    background: isDark ? "rgba(255,255,255,0.04)" : "#ffffff",
-                    border: isDark ? "1px solid rgba(184,162,230,0.12)" : "1px solid rgba(81,0,255,0.1)",
-                    borderRadius: "16px",
-                    padding: "28px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "20px",
-                    boxShadow: isDark ? undefined : "0 2px 12px rgba(81,0,255,0.05)",
-                  }}
-                >
-                  {/* quote marks */}
-                  <span style={{ fontSize: "40px", color: "#5100FF", lineHeight: 1, opacity: 0.6 }}>"</span>
-                  <p style={{ color: isDark ? "rgba(253,247,255,0.8)" : "rgba(31,25,38,0.75)", fontSize: "14px", lineHeight: 1.75, margin: 0, marginTop: "-16px", flex: 1 }}>
-                    {t.quote}
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <div
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: "50%",
-                        backgroundColor: "#5100FF",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "13px",
-                        fontWeight: 700,
-                        color: "#FDF7FF",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {t.initials}
-                    </div>
-                    <div>
-                      <div style={{ color: isDark ? "#FDF7FF" : "#1F1926", fontSize: "13px", fontWeight: 600 }}>{t.author}</div>
-                      <div style={{ color: isDark ? "#B8A2E6" : "#5100FF", fontSize: "12px" }}>{t.role}</div>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+          <div className="flex flex-wrap gap-6">
+            {testimonials.map((t, i) => (
+              <TestimonialCard key={i} t={t} index={i} />
+            ))}
           </div>
         </div>
 
-        {/* ---- CTA final ---- */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center" }}
+          className="text-center"
         >
-          <p style={{ color: isDark ? "rgba(253,247,255,0.55)" : "rgba(31,25,38,0.55)", fontSize: "15px", marginBottom: "24px" }}>
+          <p className="section-description text-[15px] mb-6">
             Prêt à sécuriser vos dossiers clients ?
           </p>
-          <a
-            href="#contact"
-            style={{
-              display: "inline-block",
-              backgroundColor: "#5100FF",
-              color: "#FDF7FF",
-              borderRadius: "9999px",
-              padding: "16px 40px",
-              fontWeight: 600,
-              fontSize: "16px",
-              textDecoration: "none",
-              transition: "filter 0.25s, box-shadow 0.25s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.filter = "brightness(1.15)";
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 32px rgba(81,0,255,0.45)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.filter = "none";
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-            }}
-          >
+          <a href="#contact" className="btn-primary">
             Demander une démo gratuite
           </a>
         </motion.div>
@@ -251,3 +155,5 @@ export default function Confiance() {
     </section>
   );
 }
+
+
