@@ -24,7 +24,7 @@ const testimonials = [
     initials: "MA",
   },
   {
-    quote: "Produit français, hébergement français, équipe réactive. Exactement ce qu'un cabinet comme le nôtre attendait.",
+    quote: "Produit français, hébergement européen, équipe réactive. Exactement ce qu'un cabinet comme le nôtre attendait.",
     author: "Maître Jean-François R.",
     role: "Notaire, Bordeaux",
     initials: "JR",

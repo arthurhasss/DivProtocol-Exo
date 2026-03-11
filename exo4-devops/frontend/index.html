@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greeter</title>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f5f3ff; }
+    .card { background: #fff; padding: 2.5rem; border-radius: 16px; box-shadow: 0 4px 24px rgba(81,0,255,.08); text-align: center; max-width: 400px; width: 90%; }
+    h1 { font-size: 1.5rem; margin-bottom: .5rem; color: #1F1926; }
+    p.sub { font-size: .85rem; color: #888; margin-bottom: 1.5rem; }
+    input { width: 100%; padding: .8rem 1rem; border: 2px solid #e5e5e5; border-radius: 10px; font-size: 1rem; outline: none; transition: border .2s; }
+    input:focus { border-color: #5100FF; }
+    button { width: 100%; margin-top: .75rem; padding: .8rem; background: #5100FF; color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background .2s; }
+    button:hover { background: #42137C; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    #result { margin-top: 1.5rem; font-size: 1.1rem; color: #1F1926; font-weight: 500; min-height: 1.5rem; }
+    .error { color: #dc2626; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Qui es-tu ?</h1>
+    <p class="sub">Entre ton prenom, on te dit bonjour.</p>
+    <input id="name" placeholder="Ton prenom" autofocus>
+    <button id="btn" onclick="greet()">Envoyer</button>
+    <p id="result"></p>
+  </div>
+  <script>
+    async function greet() {
+      const input = document.getElementById('name');
+      const name = input.value.trim();
+      if (!name) return;
+      const btn = document.getElementById('btn');
+      const result = document.getElementById('result');
+      btn.disabled = true;
+      result.textContent = '';
+      result.className = '';
+      try {
+        const res = await fetch('/api/greet', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+        const data = await res.json();
+        result.textContent = data.message;
+      } catch {
+        result.textContent = 'Erreur de connexion au serveur';
+        result.className = 'error';
+      }
+      btn.disabled = false;
+      input.value = '';
+      input.focus();
+    }
+    document.getElementById('name').addEventListener('keydown', e => { if (e.key === 'Enter') greet(); });
+  </script>
+</body>
+</html>
