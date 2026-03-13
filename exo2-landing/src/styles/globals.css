@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
 @source "../app/**/*.{ts,tsx,js,jsx}";
 @source "../components/**/*.{ts,tsx,js,jsx}";
 @source "../sections/**/*.{ts,tsx,js,jsx}";
@@ -24,9 +28,7 @@ body {
   min-height: 100vh;
 }
 
-/* ════════════════════════════════════════════════════
-   Section backgrounds (dark only)
-════════════════════════════════════════════════════ */
+
 
 .section-hero      { background: linear-gradient(to bottom, #080510, #1B0D35); }
 .section-manifesto { background: linear-gradient(to bottom, #1B0D35, #2D1155); }
@@ -35,9 +37,7 @@ body {
 .section-cta-1     { background: linear-gradient(to bottom, #2D1155, #3A1570); }
 .section-cta-2     { background: linear-gradient(to bottom, #4E1A8C, #6030A8); }
 
-/* ════════════════════════════════════════════════════
-   Shared component classes
-════════════════════════════════════════════════════ */
+
 @layer components {
 
   .section-container {

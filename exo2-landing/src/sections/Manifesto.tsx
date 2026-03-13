@@ -25,7 +25,7 @@ export default function Manifesto() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="section-manifesto py-[100px] px-6 flex justify-center transition-colors duration-500">
+    <section id="discover" className="section-manifesto pt-[100px] pb-[220px] px-6 flex justify-center transition-colors duration-500">
       <motion.div ref={ref} className="max-w-[820px] text-center">
 
         {}

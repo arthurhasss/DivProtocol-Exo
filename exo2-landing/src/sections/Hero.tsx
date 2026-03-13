@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 
 /* ---------- animation variants ---------- */
 const fadeUp = {
@@ -172,6 +172,43 @@ function AnimatedPackets() {
 export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const scrollToDiscover = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    const target = document.getElementById("discover");
+    if (!target) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const startY = window.scrollY;
+    const targetOffset = 90;
+    const targetY = Math.max(target.getBoundingClientRect().top + window.scrollY - targetOffset, 0);
+    const distance = targetY - startY;
+
+    if (prefersReducedMotion) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    const duration = 20;
+    let startTime: number | null = null;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const animate = (timestamp: number) => {
+      if (startTime === null) startTime = timestamp;
+
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * eased);
+
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  };
+
   return (
     <section className="section-hero relative min-h-screen overflow-hidden font-sans transition-colors duration-500">
       {/* ---------- animated background ---------- */}
@@ -209,7 +246,7 @@ export default function Hero() {
             <span>FR</span>
           </div>
           <a
-            href="tel:+33"
+            href="#"
             className="nav-call"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -218,7 +255,7 @@ export default function Hero() {
             Appelez-nous
           </a>
           <a
-            href="#contact"
+            href="#"
             className="nav-cta"
           >
             Nous contacter
@@ -297,10 +334,10 @@ export default function Hero() {
               <circle cx="12" cy="12" r="10" />
               <path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20" />
             </svg>
-            <span>EN</span>
+            <span>FR</span>
           </div>
           <a
-            href="tel:+33"
+            href="#"
             style={{ borderRadius: "9999px", border: "1px solid #5100FF", padding: "12px 20px", fontSize: "0.875rem", fontWeight: 500, color: "#5100FF", textAlign: "center", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5100FF">
@@ -309,7 +346,7 @@ export default function Hero() {
             Appelez-nous
           </a>
           <a
-            href="#contact"
+            href="#"
             onClick={() => setMenuOpen(false)}
             style={{ borderRadius: "9999px", backgroundColor: "#1F1926", padding: "12px 20px", fontSize: "0.875rem", fontWeight: 600, color: "#FDF7FF", textAlign: "center", textDecoration: "none" }}
           >
@@ -329,14 +366,14 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="inline-flex items-center gap-2 rounded-full px-5 py-[10px] text-base font-semibold mb-6
+          className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-semibold mb-5 sm:gap-2 sm:px-4 sm:text-sm md:px-5 md:py-[10px] md:text-base md:mb-6
             bg-[rgba(81,0,255,0.15)] border border-[rgba(81,0,255,0.4)] text-wisteria"
         >
-          <span style={{ color: "#5100FF", fontWeight: 800, fontSize: "20px" }}>85%</span>
+          <span className="text-[16px] font-extrabold text-electric-indigo sm:text-[18px] md:text-[20px]">85%</span>
           des cabinets d'avocats exposent leurs dossiers sur le Cloud&nbsp;US
         </motion.div>
 
-        {/* headline */}
+        {}
         <motion.h1
           custom={1}
           variants={fadeUp}
@@ -350,13 +387,14 @@ export default function Hero() {
 
        
 
-        {/* CTA */}
+        {}
         <motion.a
           custom={3}
           variants={fadeUp}
           initial="hidden"
           animate="visible"
           href="#discover"
+          onClick={scrollToDiscover}
           className="btn-primary mt-16"
           whileHover={{ filter: "brightness(1.1)", boxShadow: "0 0 32px rgba(184,162,230,0.5)" }}
         >
