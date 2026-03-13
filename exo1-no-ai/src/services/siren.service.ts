@@ -5,6 +5,10 @@ export class SirenService{
     {
         const withoutSpaceSiren = siren.replace(/\s+/g, '');
 
+        if (withoutSpaceSiren.length === 0) {
+            return {status: 400, body: {error: 'invalid format'}};
+        }
+
         if (withoutSpaceSiren.length!=9 || !/^\d+$/.test(withoutSpaceSiren)) {
             return {status: 422, body: {error: 'invalid format'}};
         }
