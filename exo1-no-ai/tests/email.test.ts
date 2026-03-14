@@ -5,9 +5,12 @@ describe('EmailService.checkEmail', () => {
 		const result = EmailService.checkEmail('john.doe@example.com');
 
 		expect(result).toEqual({
-			email: 'john.doe@example.com',
-			valid: true,
-			normalized: 'john.doe@example.com',
+			status: 200,
+			body: {
+				email: 'john.doe@example.com',
+				valid: true,
+				normalized: 'john.doe@example.com',
+			},
 		});
 	});
 
@@ -15,20 +18,26 @@ describe('EmailService.checkEmail', () => {
 		const result = EmailService.checkEmail('jean.dupont@yopmail.com');
 
 		expect(result).toEqual({
-			email: 'jean.dupont@yopmail.com',
-			valid: false,
-			disposable: true,
-			normalized: 'jean.dupont@yopmail.com',
+			status: 422,
+			body: {
+				email: 'jean.dupont@yopmail.com',
+				valid: false,
+				disposable: true,
+				normalized: 'jean.dupont@yopmail.com',
+			},
 		});
 	});
 
-    it('espaces et majuscules', () => {
+	it('espaces et majuscules', () => {
 		const result = EmailService.checkEmail('  john.DOE@example.com  ');
 
 		expect(result).toEqual({
-			email: '  john.DOE@example.com  ',
-			valid: true,
-			normalized: 'john.doe@example.com',
+			status: 200,
+			body: {
+				email: '  john.DOE@example.com  ',
+				valid: true,
+				normalized: 'john.doe@example.com',
+			},
 		});
 	});
 
@@ -36,9 +45,45 @@ describe('EmailService.checkEmail', () => {
 		const result = EmailService.checkEmail('hihihiha');
 
 		expect(result).toEqual({
-			email: 'hihihiha',
-			valid: false,
-			normalized: 'hihihiha',
+			status: 422,
+			body: {
+				email: 'hihihiha',
+				valid: false,
+				normalized: 'hihihiha',
+			},
+		});
+	});
+
+	it('Email vide', () => {
+		const result = EmailService.checkEmail('');
+
+		expect(result).toEqual({
+			status: 400,
+			body: { error: 'invalid format' },
+		});
+	});
+
+	it('Espace intérieur de email', () => {
+		const result = EmailService.checkEmail('john. doe@example.com');
+
+
+		expect(result).toEqual({
+			status: 422,
+			body: { error: 'invalid format' },
+		});
+	});
+
+	it('Email jetable sans @ avec domaine jetable', () => {
+		const result = EmailService.checkEmail('yopmail.com');
+
+		expect(result).toEqual({
+			status: 422,
+			body: {
+				email: 'yopmail.com',
+				valid: false,
+				disposable: true,
+				normalized: 'yopmail.com',
+			},
 		});
 	});
 });

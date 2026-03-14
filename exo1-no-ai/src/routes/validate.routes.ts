@@ -7,15 +7,15 @@ app.use(express.json());
 
 app.post('/validate/email', (req, res) => {
   const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'email required' });
+  if (!email || typeof email !== 'string') return res.status(400).json({ error: 'invalid format' });
   const checkResultEmail = EmailService.checkEmail(email);
 
-  res.status(200).json(checkResultEmail);
+  res.status(checkResultEmail.status).json(checkResultEmail.body);
 });
 
 app.post('/validate/siren', (req, res) => {
   const { siren } = req.body;
-if (!siren || typeof siren !== 'string')  return res.status(400).json({ error: 'invalid format' });
+  if (!siren || typeof siren !== 'string') return res.status(400).json({ error: 'invalid format' });
   const checkResultSiren = SirenService.checkSiren(siren);
   res.status(checkResultSiren.status).json(checkResultSiren.body);
 });

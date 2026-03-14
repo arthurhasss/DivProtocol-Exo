@@ -1,22 +1,21 @@
 import { SirenValidator } from '../validators/siren.validator';
 
-export class SirenService{
-    static checkSiren(siren:string): { status: number, body: any }
-    {
+export class SirenService {
+    static checkSiren(siren: string): { status: number, body: any } {
         const withoutSpaceSiren = siren.replace(/\s+/g, '');
 
         if (withoutSpaceSiren.length === 0) {
-            return {status: 400, body: {error: 'invalid format'}};
+            return { status: 400, body: { error: 'invalid format' } };
         }
 
-        if (withoutSpaceSiren.length!=9 || !/^\d+$/.test(withoutSpaceSiren)) {
-            return {status: 422, body: {error: 'invalid format'}};
+        if (withoutSpaceSiren.length != 9 || !/^\d+$/.test(withoutSpaceSiren)) {
+            return { status: 422, body: { error: 'invalid format' } };
         }
         const validResponse = SirenValidator.isValid(withoutSpaceSiren);
         const formattedSiren = withoutSpaceSiren.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
 
-      
 
-        return{status: 200, body: {siren : siren,valid : validResponse, formatted : formattedSiren}}
+
+        return { status: 200, body: { siren: siren, valid: validResponse, formatted: formattedSiren } }
     }
 }

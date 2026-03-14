@@ -1,98 +1,63 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Exo 1 — Validation API (no-AI)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API Express minimaliste en TypeScript pour valider des **emails** et des **numéros SIREN**
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Méthode no-AI
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+### Démarche
 
-```bash
-$ npm install
-```
+1. **Lecture et compréhension des specs** — analyse des cas à couvrir (email jetable, format SIREN, algorithme de Luhn) avant d'écrire la moindre ligne de code.
+2. **Architecture manuelle** — séparation claire des responsabilités :
+   - `validators/` — logique de validation pure (regex, Luhn)
+   - `services/` — orchestration et construction de la réponse métier
+   - `routes/` — exposition HTTP via Express
+3. **TDD partiel** — les tests unitaires ont guidé l'implémentation de `EmailService` et `SirenService` : les cas de test ont été écrits en premier, puis le code jusqu'à ce qu'ils passent tous.
+4. **Normalisation des entrées** — trim + lowercase pour l'email, gestion des cas (email jetable, email avec espace à l'intérieur, email sans @), suppression des espaces pour le SIREN, gestion des cas(chaîne vide, caractères non numériques, mauvaise taille).
 
-## Compile and run the project
 
-```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+### Choix technologiques
 
-# production mode
-$ npm run start:prod
-```
+- **Express.js** : C'est un des framework web Node.js qui était mentionné dans la cheatsheet et permet de monter rapidement une API REST fonctionnelle facilement.
+- **TypeScript** : J'ai choisi de coder entièrement en TypeScript pour m'aligner sur les technologies que vous utilisez avec NestJS.
+- **Jest** : Le framework de test de référence dans l'écosystème JavaScript/TypeScript. Il est facile à utiliser pour implémenter mes tests unitaires de manière claire et structurée.
+## Endpoints
 
-## Run tests
+### `POST /validate/email`
+
+Valide et normalise un email.
+
+### `POST /validate/siren`
+
+Valide un numéro SIREN via l'algorithme de Luhn.
+
+
+### `GET /health`
+
+Vérifier que le serveur est prêt
+
+## Installation & lancement
 
 ```bash
-# unit tests
-$ npm run test
+npm install
 
-# e2e tests
-$ npm run test:e2e
+# Lancer le serveur (port 3000)
+npm run start
 
-# test coverage
-$ npm run test:cov
+# Mode watch
+npm run start:dev
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Tests
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm test
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Les tests couvrent :
+- **Email** : format valide, domaine jetable, espaces/majuscules, format invalide
+- **SIREN** : Luhn OK, mauvais checksum, trop court/long, body vide, espaces internes, caractères non numériques
