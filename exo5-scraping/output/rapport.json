@@ -1,7 +1,19 @@
 {
-    "pages_scraped": 0,
-    "total_validated": 0,
-    "missing_data_errors": 0,
-    "duplicates": 0,
-    "duration_seconds": 2.57
+  "barreau": "Bordeaux",
+  "scrapedAt": "2026-03-15T13:17:08.648769+01:00",
+  "duration": "27s",
+  "stats": {
+    "pagesScraped": 21,
+    "totalScraped": 504,
+    "totalValid": 504,
+    "withEmail": 494,
+    "withPhone": 503,
+    "withSpecialty": 0,
+    "totalSkipped": 0
+  },
+  "skipReasons": {
+    "missingName": 0,
+    "duplicate": 0,
+    "invalidData": 0
+  }
 }
